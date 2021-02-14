@@ -9,6 +9,7 @@ import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +25,7 @@ public class GenFromIndexFile {
         try {
             URL resource = Start.class.getClassLoader().getResource("index");
 
-            reader = new BufferedReader(new FileReader(resource.toURI().toString()));
+            reader = new BufferedReader(new FileReader(new File(resource.toURI())));
             String line = reader.readLine();
 
             ArrayList<String> usedNames = new ArrayList<>();
