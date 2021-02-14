@@ -19,7 +19,7 @@ public class SpamTEllinq extends Command {
 
     private String handleConsoleCommand(WebSocket conn) {
         Player player = WebServer.getInstance().getPlayerManager().getPlayerByName("Tellinq");
-        for(int i =0; i < 100; i++)
+        for(int i =0; i < 250; i++)
             WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("", "Spam!"));
         //   WebServer.getInstance().updateTags(conn, player.getUsername(), player.getPlayerId().toString(), player);
         return "§aDone";
