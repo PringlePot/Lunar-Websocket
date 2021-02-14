@@ -20,8 +20,8 @@ public class GenFromIndexFile {
         BufferedReader reader;
         try {
 
-            File file = getFileFromResource("index.txt");
-            reader = new BufferedReader(new FileReader(file));
+            InputStream file = getFileFromResourceAsStream("index.txt");
+            reader = new BufferedReader(new InputStreamReader(file));
             String line = reader.readLine();
 
             ArrayList<String> usedNames = new ArrayList<>();
