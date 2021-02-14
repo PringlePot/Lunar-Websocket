@@ -63,7 +63,7 @@ public class WebServer extends WebSocketServer {
     @Getter private final PlayerManager playerManager;
     @Getter private final ServerHandler serverHandler;
     @Getter private final WebLogger logger;
-    @Getter private final JedisPool jedisPool;
+    @Getter public JedisPool jedisPool;
     @Getter private final CommandHandler commandHandler;
 
     private long startTime;
@@ -77,7 +77,7 @@ public class WebServer extends WebSocketServer {
         logger = new WebLogger(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(".")).getPath());
         GenFromIndexFile.load();
         this.state = EnumServerState.STARTING;
-        this.jedisPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379, 20000, null, 0); // load the jedis pool on 5 for dev and 10 for master.
+      //  this.jedisPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379, 20000, null, 0); // load the jedis pool on 5 for dev and 10 for master.
         WebsocketUUIDCache.init();
         this.mongoManager = new MongoManager();
         this.serverHandler = new ServerHandler();

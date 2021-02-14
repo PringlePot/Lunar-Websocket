@@ -1,8 +1,14 @@
 package me.moose.websocket.server.uuid.impl;
 
+import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.uuid.UUIDCache;
 import me.moose.websocket.server.uuid.redis.RedisUtil;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Protocol;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,7 +18,13 @@ public class RedisUUIDCache implements UUIDCache {
     private static final Map<UUID, String> uuidToName = new ConcurrentHashMap<>();
     private static final Map<String, UUID> nameToUUID = new ConcurrentHashMap<>();
 
-    public RedisUUIDCache() {
+    public RedisUUIDCache() throws URISyntaxException {
+        URI redisURI = new URI("redis://redistogo:dc530ba03b09dd55a89f05b543cc539e@pearlfish.redistogo.com:9250/");
+        WebServer.getInstance().jedisPool = new JedisPool(new JedisPoolConfig(),
+                redisURI.getHost(),
+                redisURI.getPort(),
+                Protocol.DEFAULT_TIMEOUT,
+                redisURI.getUserInfo().split(":",2)[1], 0);
         RedisUtil.runRedisCommand((redis) -> {
             final Map<String, String> cache = redis.hgetAll("WebsocketUUIDCache");
             for (Map.Entry<String, String> cacheEntry : cache.entrySet()) {

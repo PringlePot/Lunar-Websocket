@@ -14,7 +14,9 @@ public class MongoManager {
     private DBCollection profileCollection;
 
     public MongoManager() {
-        this.client = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        MongoClientURI uri = new MongoClientURI(
+                "mongodb://GodUser:BitUWOga5aOePYU2@cluster0-shard-00-00.au0ai.mongodb.net:27017,cluster0-shard-00-01.au0ai.mongodb.net:27017,cluster0-shard-00-02.au0ai.mongodb.net:27017/WebSocket?ssl=true&replicaSet=atlas-bmrp0p-shard-0&authSource=admin&retryWrites=true&w=majority");
+        this.client =new MongoClient(uri);
 
         try {
             this.database = this.client.getDB("CBWSDev");
