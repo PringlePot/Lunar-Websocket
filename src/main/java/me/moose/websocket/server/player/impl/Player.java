@@ -66,6 +66,7 @@ public class Player {
         long start = System.currentTimeMillis();
 
         DBObject profile = WebServer.getInstance().getMongoManager().getProfileCollection().find(new BasicDBObject("_id", this.playerId.toString())).one();
+        this.processRank();
 
         if (profile == null) { // Set Defaults.
             this.friendStatus = EnumFriendStatus.ONLINE;
@@ -76,7 +77,6 @@ public class Player {
 
             return;
         }
-        this.processRank();
 
         if (this.isOnline()) this.friendStatus = EnumFriendStatus.ONLINE;
          else this.friendStatus = EnumFriendStatus.OFFLINE;
