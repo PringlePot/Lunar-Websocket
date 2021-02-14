@@ -51,7 +51,7 @@ public class GenFromIndexFile {
 
     @SneakyThrows
     public static File getFile(String file) {
-        URL resource = Start.class.getClassLoader().getResource(file);
+        URL resource = GenFromIndexFile.class.getClassLoader().getResource(file);
         if (resource == null) {
             throw new IllegalArgumentException(file + " not found!");
         } else {
@@ -65,7 +65,7 @@ public class GenFromIndexFile {
     private static InputStream getFileFromResourceAsStream(String fileName) {
 
         // The class loader that loaded the class
-        ClassLoader classLoader = Start.class.getClassLoader();
+        ClassLoader classLoader = GenFromIndexFile.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
 
         // the stream holding the file content
