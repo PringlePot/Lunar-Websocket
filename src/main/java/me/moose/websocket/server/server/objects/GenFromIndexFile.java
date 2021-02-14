@@ -1,17 +1,13 @@
 package me.moose.websocket.server.server.objects;
 
 import com.google.common.collect.Maps;
-import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import me.moose.websocket.Start;
 import me.moose.websocket.server.WebServer;
-import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -24,8 +20,8 @@ public class GenFromIndexFile {
         BufferedReader reader;
         try {
 
-
-            reader = new BufferedReader(new FileReader(getFile("index")));
+            File file = getFileFromResource("index.txt");
+            reader = new BufferedReader(new FileReader(file));
             String line = reader.readLine();
 
             ArrayList<String> usedNames = new ArrayList<>();
@@ -65,5 +61,34 @@ public class GenFromIndexFile {
 
             return new File(resource.toURI());
         }
+    }
+    private static InputStream getFileFromResourceAsStream(String fileName) {
+
+        // The class loader that loaded the class
+        ClassLoader classLoader = Start.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+            return inputStream;
+        }
+
+    }
+    private static File getFileFromResource(String fileName) throws URISyntaxException {
+
+        ClassLoader classLoader = Start.class.getClassLoader();
+        URL resource = classLoader.getResource(fileName);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found! " + fileName);
+        } else {
+
+            // failed if files have whitespaces or special characters
+            //return new File(resource.getFile());
+
+            return new File(resource.toURI());
+        }
+
     }
 }
