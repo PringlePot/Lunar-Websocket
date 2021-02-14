@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
 import me.moose.websocket.command.impl.SendPacketsCommand;
-import me.moose.websocket.command.impl.SpamTEllinq;
 import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.server.nethandler.impl.server.PacketCommand;
 import org.java_websocket.WebSocket;
@@ -23,7 +22,6 @@ public class CommandHandler {
 
     private void registerCommands() {
         commandMap.put("send", new SendPacketsCommand());
-        commandMap.put("spamtellinq", new SpamTEllinq());
     }
 
     public Optional<Command> getCommand(String name) {
