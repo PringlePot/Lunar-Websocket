@@ -50,9 +50,9 @@ public class PlayerFriendManager {
             player.getFriends().add(friend);
 
             if (sendPacket) {
-                if(friendPlayer.getRank().equals(Rank.RAINBOW))
+               /*if(friendPlayer.getRank().equals(Rank.RAINBOW))
                     WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new CBPacketFriendUpdate(friend.isOnline(), friend.isOnline() ? friend.getFriendStatus().ordinal() : friend.getOfflineSince(), friend.getPlayerId(), RainbowHelper.randomFriendMessageColor().getCode() + friend.getUsername()));
-                else
+                else*/
                     WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new CBPacketFriendUpdate(friend.isOnline(), friend.isOnline() ? friend.getFriendStatus().ordinal() : friend.getOfflineSince(), friend.getPlayerId(), friendPlayer.getRank().getFColor().getCode() + friend.getUsername()));
             }
         }
@@ -79,9 +79,9 @@ public class PlayerFriendManager {
      */
     public static void addFriend(Player a, ServerHandler handler, PlayerFriend b, Player bPlayer) {
         a.getFriends().add(b);
-        if(bPlayer.getRank().equals(Rank.RAINBOW))
+     /*   if(bPlayer.getRank().equals(Rank.RAINBOW))
             handler.sendPacket(a.getConn(), new CBPacketFriendUpdate(b.isOnline(), (b.isOnline() ? b.getFriendStatus().ordinal() : System.currentTimeMillis()), b.getPlayerId(), RainbowHelper.randomFriendMessageColor().getCode() + b.getUsername()));
-        else
+        else*/
         handler.sendPacket(a.getConn(), new CBPacketFriendUpdate(b.isOnline(), (b.isOnline() ? b.getFriendStatus().ordinal() : System.currentTimeMillis()), b.getPlayerId(), bPlayer.getRank().getFColor().getCode() + b.getUsername()));
     }
 
@@ -120,9 +120,9 @@ public class PlayerFriendManager {
                         friend.setOfflineSince(System.currentTimeMillis());
                         friend.setStatus("Online");
 
-                        if(friendPlayer.getRank().equals(Rank.RAINBOW))
+                        /*if(friendPlayer.getRank().equals(Rank.RAINBOW))
                             offlineMap.put(friend.getPlayerId(), ImmutableList.of(RainbowHelper.randomFriendMessageColor().getCode() + friendPlayer.getUsername(), (int) friend.getOfflineSince()));
-                        else
+                        else*/
                             offlineMap.put(friend.getPlayerId(), ImmutableList.of(friendPlayer.getRank().getFColor().getCode() + friendPlayer.getUsername(), (int) friend.getOfflineSince()));
                     }
                 } else {
@@ -131,9 +131,9 @@ public class PlayerFriendManager {
                     friend.setServer("");
                     friend.setOfflineSince(friendPlayer.getLogOffTime());
                     friend.setStatus("Online");
-                    if(friendPlayer.getRank().equals(Rank.RAINBOW))
+                  /*  if(friendPlayer.getRank().equals(Rank.RAINBOW))
                         offlineMap.put(friend.getPlayerId(), ImmutableList.of(RainbowHelper.randomFriendMessageColor().getCode() + friendPlayer.getUsername(), (int) friend.getOfflineSince()));
-                    else
+                    else*/
                         offlineMap.put(friend.getPlayerId(), ImmutableList.of(friendPlayer.getRank().getFColor().getCode() + friendPlayer.getUsername(), (int) friend.getOfflineSince()));
                 }
             }
