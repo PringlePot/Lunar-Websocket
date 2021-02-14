@@ -143,7 +143,8 @@ public class WebServer extends WebSocketServer {
         for(Player user : PlayerManager.getPlayerMap().values()) {
             for (Player online : PlayerManager.getPlayerMap().values()) {
                 getLogger().info("Setting " + user.getUsername() +
-                        " Rank Info (Rank: " + user.getRank().name() +
+                        " Rank Info (Rank: " + user.
+                        getRank().name() +
                         " Color: " + user.getRank().getColor() + ") For "
                         + online.getUsername());
                 if(user.getRank().equals(Rank.RAINBOW))
