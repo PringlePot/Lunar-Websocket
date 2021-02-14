@@ -29,7 +29,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 public class Start {
     public static void main(String[] args) {
 
-        WebSocketServer server = new WebServer(new InetSocketAddress("0.0.0.0", 443));
+        WebSocketServer server = new WebServer(new InetSocketAddress("0.0.0.0", 83));
    /*     SSLContext context = null;
         try {
             context = getContextJKS();
