@@ -5,6 +5,7 @@ import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.player.impl.Player;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
 import me.moose.websocket.server.server.nethandler.impl.packetids.*;
+import me.moose.websocket.server.utils.No;
 import org.java_websocket.WebSocket;
 
 public class SpamTEllinq extends Command {
@@ -18,10 +19,7 @@ public class SpamTEllinq extends Command {
     }
 
     private String handleConsoleCommand(WebSocket conn) {
-        Player player = WebServer.getInstance().getPlayerManager().getPlayerByName("Tellinq");
-        for(int i =0; i < 250; i++)
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("", "Spam!"));
-        //   WebServer.getInstance().updateTags(conn, player.getUsername(), player.getPlayerId().toString(), player);
+        new No().start();
         return "§aDone";
     }
 }
