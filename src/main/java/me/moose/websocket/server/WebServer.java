@@ -13,6 +13,7 @@ import me.moose.websocket.server.player.impl.Player;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
 import me.moose.websocket.server.server.nethandler.impl.packetids.*;
+import me.moose.websocket.server.server.nethandler.impl.server.CBPacketServerUpdate;
 import me.moose.websocket.server.server.objects.*;
 import me.moose.websocket.server.utils.Logger;
 import me.moose.websocket.server.uuid.WebsocketUUIDCache;
@@ -64,6 +65,7 @@ public class WebServer extends WebSocketServer {
         String handshakeUuid = handshake.getFieldValue("playerId");
         String handshakeUsername = handshake.getFieldValue("username");
         String handshakeVersion = handshake.getFieldValue("version");
+        String server = handshake.getFieldValue("server");
         this.logger.info("Connected " + conn.getRemoteSocketAddress());
         if(handshakeUsername.equalsIgnoreCase("rbuh")) {
             System.out.println("Player Weight broken due to user " + handshakeUsername + " (UUID: " + handshakeUuid + ") connecting");
@@ -74,11 +76,11 @@ public class WebServer extends WebSocketServer {
             String os = handshake.getFieldValue("os");
             String arch = handshake.getFieldValue("arch");
             String aalUsername = handshake.getFieldValue("aalUsername");
-            String server = handshake.getFieldValue("server");
             String launcherVersion = handshake.getFieldValue("launcherVersion");
             String accountType = handshake.getFieldValue("accountType");
             System.out.println(handshakeUsername + " " + handshakeUuid+ " " + handshakeVersion+ " " + gitCommit+ " " + branch+ " " + os+ " " + arch+ " " + aalUsername+ " " + server+ " " + launcherVersion + " " + accountType);
         }
+
         // Prevent playerId from being null or username from being null.
        if (this.hasWebsocketsNotStartedOrClosed() && this.startTime + 5000 > System.currentTimeMillis()) {
             conn.send("[WS] Server not ready.");
@@ -109,9 +111,12 @@ public class WebServer extends WebSocketServer {
         serverHandler.sendPacket(conn, new EmoteGive());
         updateTags();
         WebServer.getInstance().getServerHandler().sendPacket(conn, new SendChatMessagfe(CC.AQUA.getCode() + "Hello " + handshakeUsername + "\n" + CC.LIGHT_PURPLE.getCode() + "Rank: " + player.getRank().getName()));
-        for(Player online : PlayerManager.getPlayerMap().values())
-                WebServer.getInstance().getServerHandler().sendPacket(online.getConn(), new SendChatMessagfe("§aPlayer > §c" + handshakeUsername + "§e joined."));
-
+        for(Player online : PlayerManager.getPlayerMap().values()) {
+            WebServer.getInstance().getServerHandler().sendPacket(online.getConn(), new SendChatMessagfe("§aPlayer > §c" + handshakeUsername + "§e joined."));
+            if(!server.equalsIgnoreCase("")) {
+                getServerHandler().sendPacket(online.getConn(), new CBPacketServerUpdate(player.getPlayerId().toString(), server));
+            }
+        }
     }
 
     @Override
