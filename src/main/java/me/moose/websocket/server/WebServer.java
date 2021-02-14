@@ -117,6 +117,7 @@ public class WebServer extends WebSocketServer {
                 getServerHandler().sendPacket(online.getConn(), new CBPacketServerUpdate(player.getPlayerId().toString(), server));
             }
         }
+        getLogger().sucess("Sent " + handshakeUsername + " Server of " + server);
     }
 
     @Override
