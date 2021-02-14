@@ -23,9 +23,9 @@ public class GenFromIndexFile {
     public static void load() {
         BufferedReader reader;
         try {
-            URL resource = Start.class.getClassLoader().getResource("index");
 
-            reader = new BufferedReader(new FileReader(new File(resource.toURI())));
+
+            reader = new BufferedReader(new FileReader(getFile("index")));
             String line = reader.readLine();
 
             ArrayList<String> usedNames = new ArrayList<>();
@@ -52,4 +52,18 @@ public class GenFromIndexFile {
         load();
     }
 
+
+    @SneakyThrows
+    public static File getFile(String file) {
+        URL resource = Start.class.getClassLoader().getResource(file);
+        if (resource == null) {
+            throw new IllegalArgumentException(file + " not found!");
+        } else {
+
+            // failed if files have whitespaces or special characters
+            //return new File(resource.getFile());
+
+            return new File(resource.toURI());
+        }
+    }
 }
