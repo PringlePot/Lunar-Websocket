@@ -82,7 +82,8 @@ public class PlayerFriendManager {
      /*   if(bPlayer.getRank().equals(Rank.RAINBOW))
             handler.sendPacket(a.getConn(), new CBPacketFriendUpdate(b.isOnline(), (b.isOnline() ? b.getFriendStatus().ordinal() : System.currentTimeMillis()), b.getPlayerId(), RainbowHelper.randomFriendMessageColor().getCode() + b.getUsername()));
         else*/
-        handler.sendPacket(a.getConn(), new CBPacketFriendUpdate(b.isOnline(), (b.isOnline() ? b.getFriendStatus().ordinal() : System.currentTimeMillis()), b.getPlayerId(), bPlayer.getRank().getFColor().getCode() + b.getUsername()));
+        handler.sendPacket(a.getConn(), new CBPacketFriendUpdate(b.isOnline(), (b.isOnline() ? b.getFriendStatus().ordinal() : System.currentTimeMillis()), b.getPlayerId(),
+                bPlayer.getRank().getFColor().getCode() + b.getUsername()));
     }
 
     /**

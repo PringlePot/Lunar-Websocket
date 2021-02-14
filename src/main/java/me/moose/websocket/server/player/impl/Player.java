@@ -128,6 +128,7 @@ public class Player {
             this.rank = Rank.MOOSE;
         } else
            this.rank = Rank.OWNER;
+        getLogger().info("Setting " + username + " Rank to " + rank.getName());
 
     }
 
