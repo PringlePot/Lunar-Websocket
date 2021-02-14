@@ -40,7 +40,7 @@ public class GenFromIndexFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        WebServer.getInstance().getLogger().success("Loaded " + cosmetics.size() + " Cosmetics!");
+        WebServer.getInstance().getLogger().sucess("Loaded " + cosmetics.size() + " Cosmetics!");
     }
     public static void main(String[] args) {
         load();

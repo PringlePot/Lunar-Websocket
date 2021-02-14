@@ -1,27 +1,22 @@
 package me.moose.websocket.server.player.impl;
 
-import com.google.common.collect.Maps;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.mongodb.client.model.DBCollectionUpdateOptions;
 import me.moose.websocket.server.WebServer;
-import me.moose.websocket.server.cosmetics.CosmeticType;
 import me.moose.websocket.server.player.PlayerManager;
 import me.moose.websocket.server.player.impl.friend.PlayerFriend;
 import me.moose.websocket.server.player.impl.friend.PlayerFriendManager;
 import me.moose.websocket.server.player.impl.friend.PlayerFriendRequest;
 import me.moose.websocket.server.player.impl.rank.Rank;
-import me.moose.websocket.server.server.logger.WebLogger;
 import me.moose.websocket.server.player.impl.friend.objects.EnumFriendStatus;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
 import lombok.Getter;
 import lombok.Setter;
 import me.moose.websocket.server.server.nethandler.impl.friend.CBPacketFriendListUpdate;
-import me.moose.websocket.server.server.nethandler.impl.packetids.SendChatMessagfe;
 import me.moose.websocket.server.server.nethandler.impl.packetids.WSPacketCosmeticGive;
-import me.moose.websocket.server.server.objects.CC;
-import me.moose.websocket.server.server.objects.LunarLogoColors;
+import me.moose.websocket.server.utils.Logger;
 import org.java_websocket.WebSocket;
 
 import java.beans.ConstructorProperties;
@@ -32,7 +27,7 @@ public class Player {
     private UUID playerId;
     private String username;
 
-    private WebLogger logger = WebServer.getInstance().getLogger();
+    private Logger logger = WebServer.getInstance().getLogger();
 
     // Non Persist
     private long lastMessageSent;

@@ -1,6 +1,5 @@
 package me.moose.websocket.server;
 
-import codes.rbuh.gLogger.gLogger;
 import com.google.gson.Gson;
 import me.moose.websocket.command.CommandHandler;
 import me.moose.websocket.server.player.impl.friend.PlayerFriend;
@@ -8,50 +7,25 @@ import me.moose.websocket.server.player.impl.friend.PlayerFriendManager;
 import me.moose.websocket.server.player.impl.friend.builder.PlayerFriendBuilder;
 import me.moose.websocket.server.player.impl.friend.objects.EnumFriendStatus;
 import me.moose.websocket.server.player.impl.rank.Rank;
-import me.moose.websocket.server.server.logger.WebLogger;
 import me.moose.websocket.server.mongo.MongoManager;
 import me.moose.websocket.server.player.PlayerManager;
 import me.moose.websocket.server.player.impl.Player;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
-import me.moose.websocket.server.server.nethandler.impl.friend.CBPacketFriendRequestSend;
 import me.moose.websocket.server.server.nethandler.impl.packetids.*;
 import me.moose.websocket.server.server.objects.*;
+import me.moose.websocket.server.utils.Logger;
 import me.moose.websocket.server.uuid.WebsocketUUIDCache;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
-import org.java_websocket.server.DefaultSSLWebSocketServerFactory;
 import org.java_websocket.server.WebSocketServer;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.security.KeyFactory;
-import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.print.DocFlavor;
-import javax.xml.bind.DatatypeConverter;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.file.Paths;
-import java.security.KeyStore;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -62,7 +36,7 @@ public class WebServer extends WebSocketServer {
     @Getter private final MongoManager mongoManager;
     @Getter private final PlayerManager playerManager;
     @Getter private final ServerHandler serverHandler;
-    @Getter private final WebLogger logger;
+    @Getter private final Logger logger;
     @Getter public JedisPool jedisPool;
     @Getter private final CommandHandler commandHandler;
 
@@ -73,8 +47,7 @@ public class WebServer extends WebSocketServer {
         super(address);
         // Initialise main processes
         instance = this;
-        new gLogger();
-        logger = new WebLogger(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(".")).getPath());
+        logger = new Logger("Lunar Websocket");
         GenFromIndexFile.load();
         this.state = EnumServerState.STARTING;
       //  this.jedisPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379, 20000, null, 0); // load the jedis pool on 5 for dev and 10 for master.
@@ -83,8 +56,6 @@ public class WebServer extends WebSocketServer {
         this.serverHandler = new ServerHandler();
         this.playerManager = new PlayerManager();
         this.commandHandler = new CommandHandler();
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this.logger::dump));
 
     }
 
@@ -196,7 +167,7 @@ public class WebServer extends WebSocketServer {
     @Override
     public void onStart() {
         this.startTime = System.currentTimeMillis();
-        this.logger.success("Started websockets.");
+        this.logger.sucess("Started websockets.");
     }
 
     @Override
