@@ -142,7 +142,7 @@ public class WebServer extends WebSocketServer {
         //   WebServer.getInstance().getServerHandler().sendPacket(conn, new WSPacketCosmeticGive(playerId, LunarLogoColors.TELLINQ.getColor()));
         for(Player user : PlayerManager.getPlayerMap().values()) {
             for (Player online : PlayerManager.getPlayerMap().values()) {
-                System.out.println("Setting " + user.getUsername() + " Rank Info (Rank: " + user.getRank().name() + " Color: " + user.getRank().getColor() + ") For " + online.getUsername());
+                getLogger().info("Setting " + user.getUsername() + " Rank Info (Rank: " + user.getRank().name() + " Color: " + user.getRank().getColor() + ") For " + online.getUsername());
                 if(user.getRank().equals(Rank.RAINBOW))
                     WebServer.getInstance().getServerHandler().sendPacket(online.getConn(), new WSPacketCosmeticGive(user.getPlayerId(), RainbowHelper.randomTagColor().getColor()));
                 else
