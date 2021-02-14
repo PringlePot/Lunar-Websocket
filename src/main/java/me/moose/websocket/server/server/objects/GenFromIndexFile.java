@@ -3,23 +3,28 @@ package me.moose.websocket.server.server.objects;
 import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import me.moose.websocket.Start;
 import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class GenFromIndexFile {
     @Getter
     private static Map<Integer, String[]> cosmetics = Maps.newHashMap();
+    @SneakyThrows
     public static void load() {
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(
-                    "/Users/angel/.lunarclient/textures/assets/lunar/cosmetics/index"));
+            URL resource = Start.class.getClassLoader().getResource("index");
+
+            reader = new BufferedReader(new FileReader(resource.toURI().toString()));
             String line = reader.readLine();
 
             ArrayList<String> usedNames = new ArrayList<>();
