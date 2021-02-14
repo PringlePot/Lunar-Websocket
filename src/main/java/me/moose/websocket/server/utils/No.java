@@ -21,17 +21,6 @@ public class No extends Thread {
             WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
             WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
             WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
-            WebServer.getInstance().getServerHandler().sendPacket(player.getConn(), new WSFriendMessage("L", "Spam!"));
 
         }
     }
