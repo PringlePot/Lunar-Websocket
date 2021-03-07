@@ -11,11 +11,7 @@ public class BanMessagePacketI extends CBPacket {
 
     @Override
     public void write(WebSocket conn, ByteBufWrapper out) throws IOException {
-        out.writeInt(2);
-        out.writeString("Tellinq");
-        out.writeInt(3 );
-        out.writeString("You were already detected, we just didn't ban you yet");
-        out.writeString("L");
+
     }
 
     @Override

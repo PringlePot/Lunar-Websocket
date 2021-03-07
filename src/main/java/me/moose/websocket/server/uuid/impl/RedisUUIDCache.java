@@ -3,6 +3,7 @@ package me.moose.websocket.server.uuid.impl;
 import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.uuid.UUIDCache;
 import me.moose.websocket.server.uuid.redis.RedisUtil;
+import me.moose.websocket.utils.Config;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Protocol;
@@ -19,14 +20,12 @@ public class RedisUUIDCache implements UUIDCache {
     private static final Map<String, UUID> nameToUUID = new ConcurrentHashMap<>();
 
     public RedisUUIDCache() throws URISyntaxException {
-        URI redisURI = new URI("redis://redistogo:dc530ba03b09dd55a89f05b543cc539e@pearlfish.redistogo.com:9250/");
         WebServer.getInstance().jedisPool = new JedisPool(new JedisPoolConfig(),
-                redisURI.getHost(),
-                redisURI.getPort(),
-                Protocol.DEFAULT_TIMEOUT,
-                redisURI.getUserInfo().split(":",2)[1], 0);
+                Config.Redis.HOST,
+                Config.Redis.PORT,
+                Protocol.DEFAULT_TIMEOUT, null, Config.Redis.DBID);
         RedisUtil.runRedisCommand((redis) -> {
-            final Map<String, String> cache = redis.hgetAll("WebsocketUUIDCache");
+            final Map<String, String> cache = redis.hgetAll(Config.Redis.UUIDCACHE);
             for (Map.Entry<String, String> cacheEntry : cache.entrySet()) {
                 final UUID uuid = UUID.fromString(cacheEntry.getKey());
                 final String name = cacheEntry.getValue();

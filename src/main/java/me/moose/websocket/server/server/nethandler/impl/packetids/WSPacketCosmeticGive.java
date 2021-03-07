@@ -18,6 +18,7 @@ public class WSPacketCosmeticGive extends CBPacket {
     int cosmeticId;
     int color = -1;
     boolean update;
+    boolean updatety = false;
     public WSPacketCosmeticGive() {
         this.cosmeticId = -1;
         this.update = false;
@@ -31,6 +32,10 @@ public class WSPacketCosmeticGive extends CBPacket {
     public WSPacketCosmeticGive(UUID uuid, boolean update) {
         this.target = uuid;
         this.update = update;
+    }
+    public WSPacketCosmeticGive(UUID uuid, boolean updatety, boolean a) {
+        this.target = uuid;
+        this.updatety = updatety;
     }
     public WSPacketCosmeticGive(UUID uuid, int Color) {
         this.target = uuid;
@@ -64,7 +69,7 @@ public class WSPacketCosmeticGive extends CBPacket {
                 out.writeBoolean(player.getCosmetics().contains(id));
                 i++;
             }
-            System.out.println("Added cosmetics to user " + player.getUsername());
+            //System.out.println("Added cosmetics to user " + player.getUsername());
             out.writeInt(WebServer.getInstance().getPlayerManager().getPlayerById(target).getRank().getColor());
             out.writeBoolean(true);
 
@@ -88,8 +93,19 @@ public class WSPacketCosmeticGive extends CBPacket {
                 }
                 out.writeInt(WebServer.getInstance().getPlayerManager().getPlayerById(target).getRank().getColor());
                 out.writeBoolean(true);
-            } else {
+            } else if(!updatety){
                 out.writeVarInt(player.getCosmetics().size());
+                for (int cosmId : player.getCosmetics()) {
+                    String[] info = GenFromIndexFile.getCosmetics().get(cosmId);
+                    int id = Integer.parseInt(info[0]);
+                    String name = info[3];
+                    out.writeVarInt(id);
+                    out.writeBoolean(true);
+                }
+                out.writeInt(color);
+                out.writeBoolean(true);
+            } else {
+                out.writeVarInt(0);
                 for (int cosmId : player.getCosmetics()) {
                     String[] info = GenFromIndexFile.getCosmetics().get(cosmId);
                     int id = Integer.parseInt(info[0]);

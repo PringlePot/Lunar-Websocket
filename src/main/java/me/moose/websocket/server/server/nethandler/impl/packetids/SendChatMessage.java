@@ -9,12 +9,12 @@ import org.java_websocket.WebSocket;
 import java.io.IOException;
 import java.security.PublicKey;
 
-public class SendChatMessagfe extends CBPacket {
+public class SendChatMessage extends CBPacket {
     String message;
-    public SendChatMessagfe() {
+    public SendChatMessage() {
         message = "Test Message!";
     }
-    public SendChatMessagfe(String message) {
+    public SendChatMessage(String message) {
         this.message = message;
     }
     @Override

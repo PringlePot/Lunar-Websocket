@@ -53,7 +53,7 @@ public class WSPacketCosmeticSet extends CBPacket {
         for(Player online : PlayerManager.getPlayerMap().values()) {
             if (online != player) {
                 handler.sendPacket(online.getConn(), new WSPacketCosmeticGive(player.getPlayerId(), true));
-                WebServer.getInstance().getLogger().info("Sending cosmetics to player " + online.getUsername());
+           //     WebServer.getInstance().getLogger().info("Sending cosmetics to player " + online.getUsername());
             }
         }
     }

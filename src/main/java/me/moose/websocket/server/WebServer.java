@@ -19,6 +19,7 @@ import me.moose.websocket.server.utils.Logger;
 import me.moose.websocket.server.uuid.WebsocketUUIDCache;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
+import me.moose.websocket.utils.Commands;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -27,6 +28,7 @@ import redis.clients.jedis.JedisPool;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -40,15 +42,18 @@ public class WebServer extends WebSocketServer {
     @Getter private final Logger logger;
     @Getter public JedisPool jedisPool;
     @Getter private final CommandHandler commandHandler;
+    @Getter private int onlineUsers;
 
     private long startTime;
     private EnumServerState state;
+    @Getter
+    ArrayList<Player> toSave = new ArrayList<>();
 
     public WebServer(InetSocketAddress address) {
         super(address);
         // Initialise main processes
         instance = this;
-        logger = new Logger("Lunar Websocket");
+        logger = new Logger("LC Fork WS");
         GenFromIndexFile.load();
         this.state = EnumServerState.STARTING;
       //  this.jedisPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379, 20000, null, 0); // load the jedis pool on 5 for dev and 10 for master.
@@ -57,6 +62,7 @@ public class WebServer extends WebSocketServer {
         this.serverHandler = new ServerHandler();
         this.playerManager = new PlayerManager();
         this.commandHandler = new CommandHandler();
+        new Commands().start();
 
     }
 
@@ -80,7 +86,7 @@ public class WebServer extends WebSocketServer {
             String accountType = handshake.getFieldValue("accountType");
             System.out.println(handshakeUsername + " " + handshakeUuid+ " " + handshakeVersion+ " " + gitCommit+ " " + branch+ " " + os+ " " + arch+ " " + aalUsername+ " " + server+ " " + launcherVersion + " " + accountType);
         }
-
+        onlineUsers++;
         // Prevent playerId from being null or username from being null.
        if (this.hasWebsocketsNotStartedOrClosed() && this.startTime + 5000 > System.currentTimeMillis()) {
             conn.send("[WS] Server not ready.");
@@ -105,23 +111,24 @@ public class WebServer extends WebSocketServer {
         Player player = this.playerManager.getOrCreatePlayer(conn, handshakeUsername);
         player.setVersion(handshake.getFieldValue("version"));
 
-        serverHandler.sendPacket(conn, new BanMessagePacketI());
         serverHandler.sendPacket(conn, new PacketId57());
-        serverHandler.sendPacket(conn, new HostFilePacket());
         serverHandler.sendPacket(conn, new EmoteGive());
         updateTags();
-        WebServer.getInstance().getServerHandler().sendPacket(conn, new SendChatMessagfe(CC.AQUA.getCode() + "Hello " + handshakeUsername + "\n" + CC.LIGHT_PURPLE.getCode() + "Rank: " + player.getRank().getName()));
+     /*   WebServer.getInstance().getServerHandler().sendPacket(conn, new SendChatMessagfe(CC.AQUA.getCode() + "Hello " + handshakeUsername + "\n" + CC.LIGHT_PURPLE.getCode() + "Rank: " + player.getRank().getName()));
         for(Player online : PlayerManager.getPlayerMap().values()) {
             WebServer.getInstance().getServerHandler().sendPacket(online.getConn(), new SendChatMessagfe("§aPlayer > §c" + handshakeUsername + "§e joined."));
             if(!server.equalsIgnoreCase("")) {
                 getServerHandler().sendPacket(online.getConn(), new CBPacketServerUpdate(player.getPlayerId().toString(), server));
             }
-        }
-        getLogger().sucess("Sent " + handshakeUsername + " Server of " + server);
+        }*/
+       // getLogger().sucess("Sent " + handshakeUsername + " Server of " + server);
+        serverHandler.sendPacket(conn, new EmoteGive());
+        serverHandler.sendPacket(conn, new WSPacketCosmeticGive());
     }
 
     @Override
     public void onClose(WebSocket conn, int i, String s, boolean b) {
+        onlineUsers--;  
         if (i == 1013 || i == 1003) return; // Disconnected from the server.
         this.logger.info("Disconnected " + conn.getRemoteSocketAddress());
 
@@ -129,7 +136,8 @@ public class WebServer extends WebSocketServer {
 
             Player player = PlayerManager.getPlayerMap().get(conn.getAttachment());
             for(Player user :PlayerManager.getPlayerMap().values()) {
-                serverHandler.sendPacket(user.getConn(), new SendChatMessagfe("§aPlayere >§c" + player.getUsername() + "§e left."));
+                serverHandler.sendPacket(user.getConn(), new WSPacketCosmeticGive());
+            //    serverHandler.sendPacket(user.getConn(), new SendChatMessagfe("§aPlayere >§c" + player.getUsername() + "§e left."));
             }
             player.setLogOffTime(System.currentTimeMillis());
 
@@ -148,10 +156,10 @@ public class WebServer extends WebSocketServer {
         //   WebServer.getInstance().getServerHandler().sendPacket(conn, new WSPacketCosmeticGive(playerId, LunarLogoColors.TELLINQ.getColor()));
         for(Player user : PlayerManager.getPlayerMap().values()) {
             for (Player online : PlayerManager.getPlayerMap().values()) {
-                getLogger().info("Setting " + user.getUsername() +
+               /*    getLogger().info("Setting " + user.getUsername() +
                         " Rank Info (Rank: " + user.getRank().name() +
                         " Color: " + user.getRank().getColor() + ") For "
-                        + online.getUsername());
+                        + online.getUsername());*/
               /*  if(user.getRank().equals(Rank.RAINBOW))
                     WebServer.getInstance().getServerHandler().sendPacket(online.getConn(), new WSPacketCosmeticGive(user.getPlayerId(), RainbowHelper.randomTagColor().getColor()));
                 else*/

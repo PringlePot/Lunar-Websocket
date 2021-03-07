@@ -73,7 +73,7 @@ public class Player {
             this.acceptingFriends = true;
             this.logOffTime = 0;
             this.logger.info("Took " + (System.currentTimeMillis() - start) + "ms to create a new player");
-            WebServer.getInstance().getServerHandler().sendPacket(conn, new CBPacketFriendListUpdate(true, true, onlineFriends, offlineFriends));
+            WebServer.getInstance().getServerHandler().sendPacket(conn, new CBPacketFriendListUpdate(Rank.isRankOverId(rank, Rank.VIP), true, onlineFriends, offlineFriends));
 
             return;
         }
@@ -84,8 +84,8 @@ public class Player {
         if (this.isOnline()) this.logOffTime = 0;
 
         // Allow new mongo implementation without problems.
-  /*      if (profile.get("rank") != null)
-            this.rank = Rank.getRankById((int) profile.get("rank"));*/
+       if (profile.get("rank") != null)
+            this.rank = Rank.getRankById((int) profile.get("rank"));
         if (profile.get("cosmetics") != null)
             ((List<Integer>) profile.get("cosmetics")).forEach(string -> this.getCosmetics().add(string ));
         if (profile.get("accepting") != null)
@@ -110,7 +110,8 @@ public class Player {
         PlayerFriendManager.sendAllFriendRequestToPlayer(this);
         PlayerFriendManager.updateFriendForOthers(this);
         PlayerFriendManager.recacheFriendList(this);
-        handler.sendPacket(conn, new CBPacketFriendListUpdate(true, true, onlineFriends, offlineFriends));
+
+        handler.sendPacket(conn, new CBPacketFriendListUpdate(Rank.isRankOverId(rank, Rank.VIP), true, onlineFriends, offlineFriends));
         for(Player online : PlayerManager.getPlayerMap().values()) {
             if(online != this)
                 handler.sendPacket(conn, new WSPacketCosmeticGive(online.getPlayerId()));
@@ -120,15 +121,12 @@ public class Player {
     }
 
     private void processRank() {
-        if(username.equalsIgnoreCase("Tellinq")) {
-            this.rank = Rank.TELLING;
-        } else if(username.equalsIgnoreCase("Jegox")) {
-            this.rank = Rank.JEGOX;
-        } else if(username.equalsIgnoreCase("Moose1301")) {
+
+       if(username.equalsIgnoreCase("Moose1301")) {
             this.rank = Rank.MOOSE;
         } else
-           this.rank = Rank.OWNER;
-        getLogger().info("Setting " + username + " Rank to " + rank.getName());
+           this.rank = Rank.USER;
+      //  getLogger().info("Setting " + username + " Rank to " + rank.getName());
 
     }
 

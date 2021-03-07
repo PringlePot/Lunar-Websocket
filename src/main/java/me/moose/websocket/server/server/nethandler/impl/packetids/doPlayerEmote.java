@@ -20,7 +20,7 @@ public class doPlayerEmote extends CBPacket {
     @Override
     public void read(WebSocket conn, ByteBufWrapper in) throws IOException {
         emoteId = in.readInt();
-        WebServer.getInstance().getLogger().info(WebServer.getInstance().getPlayerManager().getPlayerById(conn.getAttachment()).getUsername() + " is doing emote with id " + emoteId);
+       // WebServer.getInstance().getLogger().info(WebServer.getInstance().getPlayerManager().getPlayerById(conn.getAttachment()).getUsername() + " is doing emote with id " + emoteId);
     }
 
     @Override

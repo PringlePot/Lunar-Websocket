@@ -7,7 +7,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
+import me.moose.websocket.command.impl.OnlineCommand;
 import me.moose.websocket.command.impl.SendPacketsCommand;
+import me.moose.websocket.command.impl.SetRankCommand;
 import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.server.nethandler.impl.server.PacketCommand;
 import org.java_websocket.WebSocket;
@@ -21,7 +23,10 @@ public class CommandHandler {
     }
 
     private void registerCommands() {
-        commandMap.put("send", new SendPacketsCommand());
+
+        commandMap.put("online", new OnlineCommand());
+        commandMap.put("dev", new SendPacketsCommand());
+        commandMap.put("setrank", new SetRankCommand());
     }
 
     public Optional<Command> getCommand(String name) {

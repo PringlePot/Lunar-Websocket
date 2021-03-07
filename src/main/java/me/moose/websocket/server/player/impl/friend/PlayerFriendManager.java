@@ -140,7 +140,7 @@ public class PlayerFriendManager {
             }
         }
         System.out.println("Sent Friend List.");
-        handler.sendPacket(player.getConn(), new CBPacketFriendListUpdate(true, player.isAcceptingFriends(), onlineMap, offlineMap));
+        handler.sendPacket(player.getConn(), new CBPacketFriendListUpdate(Rank.isRankOverId(player.getRank(), Rank.VIP), player.isAcceptingFriends(), onlineMap, offlineMap));
     }
 
     public static void recacheFriendList(Player player) {

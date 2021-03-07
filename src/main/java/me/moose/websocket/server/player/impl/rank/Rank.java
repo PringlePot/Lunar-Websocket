@@ -10,8 +10,6 @@ public enum Rank {
     OWNER(5, LunarLogoColors.OWNER.getColor(), CC.RED.getCode() + "Owner", CC.RED),
     LEAD_DEV(4, LunarLogoColors.DEV.getColor(), CC.AQUA.getCode() + "Lead Dev", CC.AQUA),
     DEV(3, LunarLogoColors.DEV.getColor(), CC.AQUA.getCode() + "Dev", CC.AQUA),
-    TELLING(11, LunarLogoColors.TELLINQ.getColor(), CC.GOLD.getCode() + "Tellinq", CC.GOLD),
-    JEGOX(10, LunarLogoColors.JEGOX.getColor(), CC.BLUE.getCode() + "Jegox", CC.BLUE),
     MOOSE(12, LunarLogoColors.MOOSE.getColor(), CC.AQUA.getCode() + "Moose", CC.AQUA),
     VIP(1,LunarLogoColors.TESTER.getColor(), "VIP", CC.YELLOW),
     USER(0,LunarLogoColors.WHITE.getColor(), "User", CC.BLUE),

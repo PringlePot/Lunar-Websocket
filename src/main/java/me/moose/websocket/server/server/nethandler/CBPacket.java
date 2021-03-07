@@ -54,7 +54,7 @@ public abstract class CBPacket {
         // Server
         REGISTRY.put(CBPacketServerUpdate.class, 6);
 
-        REGISTRY.put(SendChatMessagfe.class, 65);
+        REGISTRY.put(SendChatMessage.class, 65);
         REGISTRY.put(PacketId56.class, 56);
         REGISTRY.put(PacketId57.class, 57);
         REGISTRY.put(BanMessagePacketI.class, 1056);

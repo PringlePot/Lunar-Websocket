@@ -36,7 +36,6 @@ public class CBPacketServerUpdate extends CBPacket {
     public void read(WebSocket conn, ByteBufWrapper in) throws IOException {
         this.playerId = in.readString(52);
         this.serverAddress = in.readString(100);
-        System.out.println(WebServer.getInstance().getPlayerManager().getPlayerById(conn.getAttachment()).getUsername() + " Server: " + serverAddress);
     }
 
     @Override
@@ -61,5 +60,6 @@ public class CBPacketServerUpdate extends CBPacket {
                 }
             }
         }
+
     }
 }
