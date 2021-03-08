@@ -127,6 +127,8 @@ public class Player {
             this.rank = Rank.MOOSE;
         } else if(username.equalsIgnoreCase("SheepKiller69")) {
            this.rank = Rank.VIP;
+        } else if(username.equalsIgnoreCase("Gexs")) {
+           this.rank = Rank.SHRUNKIE;
        }else
            this.rank = Rank.USER;
       //  getLogger().info("Setting " + username + " Rank to " + rank.getName());
