@@ -22,7 +22,7 @@ public class WSPacketCosmeticGive extends CBPacket {
     public WSPacketCosmeticGive() {
         this.cosmeticId = -1;
         this.update = false;
-        System.out.println("Setting user cosmetics");
+       // System.out.println("Setting user cosmetics");
 
     }
     public WSPacketCosmeticGive(UUID uuid) {
@@ -53,22 +53,13 @@ public class WSPacketCosmeticGive extends CBPacket {
         if (!update) {
             out.writeVarInt(GenFromIndexFile.getCosmetics().values().size());
             ArrayList<Integer> dupes = new ArrayList<>();
-            int i = 0;
             for (String[] values : GenFromIndexFile.getCosmetics().values()) {
                 int id = Integer.parseInt(values[0]);
-                String name = values[3];
-
-                boolean state = Boolean.parseBoolean(values[5]);
-                if (!dupes.contains(id)) {
-                    dupes.add(id);
-                } else {
-                    WebServer.getInstance().getLogger().info("Dupe id: " + id + " Name: " + name);
-                }
-                // WebServer.getInstance().getLogger().info("Adding cosmetic with name: " + name + " type: " + type + " Id: " + id);
                 out.writeVarInt(id);
-                out.writeBoolean(player.getCosmetics().contains(id));
-                i++;
+                out.writeBoolean(false);
+               // out.writeBoolean(player.getCosmetics().contains(id));
             }
+
             //System.out.println("Added cosmetics to user " + player.getUsername());
             out.writeInt(WebServer.getInstance().getPlayerManager().getPlayerById(target).getRank().getColor());
             out.writeBoolean(true);

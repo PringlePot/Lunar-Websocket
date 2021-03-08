@@ -43,7 +43,6 @@ public class WSPacketCosmeticSet extends CBPacket {
 
         if(this.cosmeticId == -1) {
             this.cosmeticId = 1;
-            System.out.println("STill -1");
         }
     }
 

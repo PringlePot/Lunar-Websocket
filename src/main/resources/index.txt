@@ -910,8 +910,7 @@
 1033,1.0,cosmetics/masks/cupidheartmask.png,Valentines Cupid Heart Mask,hat,false
 1034,1.0,cosmetics/masks/lovebearmask.png,Valentines Love Bear Mask,hat,false
 1035,1.0,cosmetics/masks/lunargalaxyblackmask.png,Lunar Black Galaxy Mask,hat,true
-1036,1.0,cosmetics/masks/lunargalaxybluemask.png,Lunar Black Blue Mask,hat,true
-1037,1.0,cosmetics/masks/lunargalaxybluemask.png,Lunar Purple Galaxy Mask,hat,true
+1037,1.0,cosmetics/masks/lunargalaxypurplemask.png,Lunar Purple Galaxy Mask,hat,true
 1038,1.0,cosmetics/masks/lunargalaxyrainbowmask.png,Lunar Rainbow Galaxy Mask,hat,true
 1039,1.0,cosmetics/masks/lunarorangegalaxymask.png,Lunar Orange Galaxy Mask,hat,true
 1040,1.0,cosmetics/masks/lunarredgalaxymask.png,Lunar Red Galaxy Mask,hat,true
@@ -948,7 +947,7 @@
 1072,1.0,cat_ears,EmOrSomething Cat Ears,hat,false
 1074,1.0,heartband,Heart Band,hat,false
 1075,1.0,cosmetics/headsets/blackheadset.png,Black Headset,hat,true
-1076,1.0,cosmetics/headsets/headset.png,Headset,hat,false
+1076,1.0,cosmetics/headsets/headset.png,Default Headset,hat,false
 1077,1.0,cosmetics/headsets/whiteheadset.png,White Headset,hat,true
 1078,1.0,cosmetics/headsets/redheadset.png,Red Headset,hat,true
 1080,1.0,cosmetics/ties/blackvalentine_bowtie.png,Red Hearts Bowtie,bodywear,false
@@ -961,3 +960,53 @@
 1087,1.0,cosmetics/cloaks/megapvpnightsky.png,MegaPvP Night Sky,cape,true
 1088,1.0,cosmetics/cloaks/boomerpond.png,Boomer Pond,cape,true
 1089,1.0,cosmetics/bandannas/versglitchedbandanna.png,Vers Glitched Bandanna,hat,true
+1090,1.0,cosmetics/cloaks/b0mbiesbear.png,B0MBIES Bears,cape,true
+1092,1.0,cosmetics/cloaks/i3rother.png,I3rother,cape,true
+1093,1.0,cosmetics/cloaks/graserelectricshock.png,Graser Animated Shock,cape,true
+1094,1.0,cosmetics/cloaks/gamerboy80eyes.png,gamerboy80 Eyes,cape,true
+1095,1.0,cosmetics/cloaks/gamerboy8lightning.png,gamerboy80 Lightning,cape,true
+1096,1.0,cosmetics/bandannas/manhalchickenbandanna.png,Manhal_IQ_ Bandanna,hat,true
+1097,1.0,cosmetics/catears/cat_tiger.png,Tiger Kitten Ears,hat,false
+1098,1.0,cosmetics/catears/cat_blackcat.png,Black Kitten Ears,hat,false
+1099,1.0,cosmetics/catears/cat_leopard.png,Leopard Kitten Ears,hat,false
+1100,1.0,cosmetics/catears/cat_greytabby.png,Gray Kitten Ears,hat,false
+1101,1.0,cosmetics/catears/cat_gingertabby.png,Ginger Kitten Ears,hat,false
+1102,1.0,cosmetics/cloaks/bombiesnightbears.png,Bombies Night Bears,cape,true
+1103,1.0,cosmetics/cloaks/lunarclientstaff2.png,Lunar Client Staff,cape,false
+1104,1.0,cosmetics/cloaks/mrjagsterspanda.png,MrJagsterS Panda,cape,true
+1105,1.0,cosmetics/cloaks/zovawatchtower.png,Zova Watch Tower,cape,true
+1106,1.0,cosmetics/bandannas/zovawatchtowerbandanna.png,Zova Watch Tower Bandanna,hat,true
+1107,1.0,cosmetics/masks/emorsomethingrosemask.png,EmOrSomething Rose Mask,hat,false
+1108,1.0,cosmetics/cloaks/versdrippingface.png,Vers Dripping Face,cape,true
+1109,1.0,black_devil_horns,Black Devil Horns,hat,false
+1110,1.0,cosmetics/bandannas/neonblueyellowbandanna.png,Blue & Yellow Neon Bandanna,hat,true
+1111,1.0,cosmetics/bandannas/neonorangeredbandanna.png,Orange & Red Neon Bandanna,hat,true
+1112,1.0,cosmetics/bandannas/neonpinkbluebandanna.png,Pink & Blue Neon Bandanna,hat,true
+1113,1.0,cosmetics/bandannas/neonpurpleorangebandanna.png,Purple & Orange Neon Bandanna,hat,true
+1114,1.0,cosmetics/bandannas/neonredgreenbandanna.png,Red & Green Neon Bandanna,hat,true
+1115,1.0,cosmetics/cloaks/neonblueyellowcloak.png,Blue & Yellow Neon Cloak,cape,true
+1116,1.0,cosmetics/cloaks/neonorangeredcloak.png,Orange & Red Neon Cloak,cape,true
+1117,1.0,cosmetics/cloaks/neonpinkbluecloak.png,Pink & Blue Neon Cloak,cape,true
+1118,1.0,cosmetics/cloaks/neonpurpleorangecloak.png,Purple & Orange Neon Cloak,cape,true
+1119,1.0,cosmetics/cloaks/neonredgreencloak.png,Red & Green Neon Cloak,cape,true
+1120,0.13,cosmetics/wings/neonblueyellowwings.png,Blue & Yellow Neon Wings,dragon_wings,false
+1121,0.13,cosmetics/wings/neonorangeredwings.png,Orange & Red Neon Wings,dragon_wings,false
+1122,0.13,cosmetics/wings/neonpinkbluewings.png,Pink & Blue Neon Wings,dragon_wings,false
+1123,0.13,cosmetics/wings/neonpurpleorangewings.png,Purple & Orange Neon Wings,dragon_wings,false
+1124,0.13,cosmetics/wings/neonredgreenwings.png,Red & Green Neon Wings,dragon_wings,false
+1125,1.0,cosmetics/masks/halloween/neonblueyellowfullmask.png,Blue & Yellow Skull Mask,hat,true
+1126,1.0,cosmetics/masks/halloween/neonorangeredfullmask.png,Orange & Red Skull Mask,hat,true
+1127,1.0,cosmetics/masks/halloween/neonpinkbluefullmask.png,Pink & Blue Skull Mask,hat,true
+1128,1.0,cosmetics/masks/halloween/neonpurpleorangefullmask.png,Purple & Orange Skull Mask,hat,true
+1129,1.0,cosmetics/masks/halloween/neonredgreenfullmask.png,Red & Green Skull Mask,hat,true
+1130,1.0,cosmetics/masks/neonblueyellowmask.png,Blue & Yellow Neon Mask,hat,true
+1131,1.0,cosmetics/masks/neonorangeredmask.png,Orange & Red Neon Mask,hat,true
+1132,1.0,cosmetics/masks/neonpinkbluemask.png,Pink & Blue Neon Mask,hat,true
+1133,1.0,cosmetics/masks/neonpurpleorangemask.png,Purple & Orange Neon Mask,hat,true
+1134,1.0,cosmetics/masks/neonredgreenmask.png,Red & Green Neon Mask,hat,true
+1135,1.0,cosmetics/bandannas/grapeapplesauceapplebandana.png,Grapeapplesauce Apple Bandanna,hat,true
+1136,1.0,cosmetics/bandannas/grapeapplesaucepotionbandanna.png,Grapeapplesauce Potion Bandanna,hat,true
+1137,1.0,cosmetics/cloaks/grapeapplesauceanimatedapple.png,Grapeapplesauce Animated Apple,cape,true
+1138,1.0,cosmetics/cloaks/grapeapplesaucepotioncloak.png,Grapeapplesauce Animated Potion,cape,true
+1139,1.0,cosmetics/cloaks/lctesterred.png,Lunar Client Testers Red,cape,false
+1140,1.0,cosmetics/cloaks/captainpuffyrainbow.png,CaptainPuffy Rainbow,cape,true

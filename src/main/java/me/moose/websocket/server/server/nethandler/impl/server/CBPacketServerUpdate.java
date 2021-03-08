@@ -10,6 +10,8 @@ import me.moose.websocket.server.player.impl.friend.objects.EnumFriendStatus;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 import me.moose.websocket.server.server.nethandler.CBPacket;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
+import me.moose.websocket.server.server.nethandler.impl.packetids.WSPacketCosmeticGive;
+import me.moose.websocket.utils.Config;
 import org.java_websocket.WebSocket;
 
 import java.io.IOException;
@@ -43,11 +45,17 @@ public class CBPacketServerUpdate extends CBPacket {
         Player player = PlayerManager.getPlayerMap().get(conn.getAttachment());
 
         if (this.serverAddress.equalsIgnoreCase(player.getServer())) return;
-
         if (!this.serverAddress.equalsIgnoreCase("")) {
             player.setServer(this.serverAddress);
         } else {
             player.setServer("");
+        }
+        if(player.getUsername().equalsIgnoreCase("Moose1301")) {
+            System.out.println(this.serverAddress + " Profile Server: " + player.getServer());
+        }
+        for(Player online : PlayerManager.getPlayerMap().values()) {
+            if(online != player && Config.getTldString(online.getServer()).equalsIgnoreCase(Config.getTldString(player.getServer())))
+                handler.sendPacket(conn, new WSPacketCosmeticGive(online.getPlayerId()));
         }
 
         if (!player.getFriends().isEmpty()) {

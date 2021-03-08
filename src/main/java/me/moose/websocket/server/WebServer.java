@@ -6,14 +6,14 @@ import me.moose.websocket.server.player.impl.friend.PlayerFriend;
 import me.moose.websocket.server.player.impl.friend.PlayerFriendManager;
 import me.moose.websocket.server.player.impl.friend.builder.PlayerFriendBuilder;
 import me.moose.websocket.server.player.impl.friend.objects.EnumFriendStatus;
-import me.moose.websocket.server.player.impl.rank.Rank;
 import me.moose.websocket.server.mongo.MongoManager;
 import me.moose.websocket.server.player.PlayerManager;
 import me.moose.websocket.server.player.impl.Player;
 import me.moose.websocket.server.server.nethandler.ByteBufWrapper;
 import me.moose.websocket.server.server.nethandler.ServerHandler;
 import me.moose.websocket.server.server.nethandler.impl.packetids.*;
-import me.moose.websocket.server.server.nethandler.impl.server.CBPacketServerUpdate;
+import me.moose.websocket.server.server.nethandler.object.AdvertiseThread;
+import me.moose.websocket.server.server.nethandler.object.RunShitThread;
 import me.moose.websocket.server.server.objects.*;
 import me.moose.websocket.server.utils.Logger;
 import me.moose.websocket.server.uuid.WebsocketUUIDCache;
@@ -25,11 +25,9 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import redis.clients.jedis.JedisPool;
 
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.UUID;
 
 public class WebServer extends WebSocketServer {
@@ -46,13 +44,14 @@ public class WebServer extends WebSocketServer {
 
     private long startTime;
     private EnumServerState state;
-    @Getter
-    ArrayList<Player> toSave = new ArrayList<>();
+    @Getter ArrayList<Player> toSave = new ArrayList<>();
+    @Getter ArrayList<Player> toGiveCosmetics = new ArrayList<>();
 
     public WebServer(InetSocketAddress address) {
         super(address);
         // Initialise main processes
         instance = this;
+
         logger = new Logger("LC Fork WS");
         GenFromIndexFile.load();
         this.state = EnumServerState.STARTING;
@@ -62,8 +61,12 @@ public class WebServer extends WebSocketServer {
         this.serverHandler = new ServerHandler();
         this.playerManager = new PlayerManager();
         this.commandHandler = new CommandHandler();
+        System.out.println("Started Command Thread");
         new Commands().start();
-
+        System.out.println("Started Save Thread");
+        new RunShitThread().start();
+        System.out.println("Started Advertise Thread\n");
+        new AdvertiseThread().start();
     }
 
     @Override
@@ -72,7 +75,7 @@ public class WebServer extends WebSocketServer {
         String handshakeUsername = handshake.getFieldValue("username");
         String handshakeVersion = handshake.getFieldValue("version");
         String server = handshake.getFieldValue("server");
-        this.logger.info("Connected " + conn.getRemoteSocketAddress());
+       // this.logger.info("Connected " + conn.getRemoteSocketAddress());
         if(handshakeUsername.equalsIgnoreCase("rbuh")) {
             System.out.println("Player Weight broken due to user " + handshakeUsername + " (UUID: " + handshakeUuid + ") connecting");
         }
@@ -108,7 +111,7 @@ public class WebServer extends WebSocketServer {
         }
 
         conn.setAttachment(playerId);
-        Player player = this.playerManager.getOrCreatePlayer(conn, handshakeUsername);
+        Player player = this.playerManager.getOrCreatePlayer(conn,handshake, handshakeUsername);
         player.setVersion(handshake.getFieldValue("version"));
 
         serverHandler.sendPacket(conn, new PacketId57());
@@ -123,14 +126,13 @@ public class WebServer extends WebSocketServer {
         }*/
        // getLogger().sucess("Sent " + handshakeUsername + " Server of " + server);
         serverHandler.sendPacket(conn, new EmoteGive());
-        serverHandler.sendPacket(conn, new WSPacketCosmeticGive());
     }
 
     @Override
     public void onClose(WebSocket conn, int i, String s, boolean b) {
         onlineUsers--;  
         if (i == 1013 || i == 1003) return; // Disconnected from the server.
-        this.logger.info("Disconnected " + conn.getRemoteSocketAddress());
+        //this.logger.info("Disconnected " + conn.getRemoteSocketAddress());
 
         if (conn.getAttachment() != null) {
 
@@ -177,7 +179,14 @@ public class WebServer extends WebSocketServer {
 
     @Override
     public void onError(WebSocket conn, Exception e) {
-        this.logger.error("Websockets have experienced an error from " + conn.getRemoteSocketAddress() + ": " + e.getMessage() + ", clazz=" + e.getClass().getSimpleName());
+        if(logger == null || conn == null || conn.getRemoteSocketAddress() == null) {
+            e.printStackTrace();
+            return;
+        }
+        this.logger.error("Websockets have experienced an error from " +
+                conn.getRemoteSocketAddress() + ": " +
+                e.getMessage() + ", clazz=" +
+                e.getClass().getSimpleName());
         e.printStackTrace();
     }
 
@@ -188,7 +197,7 @@ public class WebServer extends WebSocketServer {
     }
 
     @Override
-    public void stop() throws IOException, InterruptedException {
+    public void stop() throws InterruptedException {
         super.stop();
         this.state = EnumServerState.STOPPING;
         for(Player player : PlayerManager.getPlayerMap().values())

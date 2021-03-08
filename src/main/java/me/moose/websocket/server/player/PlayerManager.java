@@ -5,6 +5,7 @@ import me.moose.websocket.server.player.impl.Player;
 import me.moose.websocket.server.uuid.WebsocketUUIDCache;
 import lombok.Getter;
 import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,19 +17,19 @@ public class PlayerManager {
 
     public PlayerManager() { playerMap = new HashMap<>(); }
 
-    public Player getOrCreatePlayer(WebSocket conn, String username) {
-        return playerMap.getOrDefault(conn.getAttachment(), this.createProfile(conn, username));
+    public Player getOrCreatePlayer(WebSocket conn, ClientHandshake handshake, String username) {
+        return playerMap.getOrDefault(conn.getAttachment(), this.createProfile(conn, handshake, username));
     }
 
-    public Player createProfile(WebSocket conn, String username) {
+    public Player createProfile(WebSocket conn, ClientHandshake handshake, String username) {
         if (playerMap.containsKey(conn.getAttachment()))
             return playerMap.get(conn.getAttachment());
 
         long start = System.currentTimeMillis();
-        Player player = new Player(conn.getAttachment(), username);
+        Player player = new Player(conn.getAttachment(), handshake, username);
         player.setConn(conn);
         player.load(false);
-        player.getLogger().info("Created Player " + username + " (" + conn.getRemoteSocketAddress() + ") which took " + (System.currentTimeMillis() - start) + "ms");
+     //   player.getLogger().info("Created Player " + username + " (" + conn.getRemoteSocketAddress() + ") which took " + (System.currentTimeMillis() - start) + "ms");
         return playerMap.put(conn.getAttachment(), player);
     }
 
@@ -43,7 +44,7 @@ public class PlayerManager {
         Player player = new Player(uuid, name);
         player.load(false);
         playerMap.put(uuid, player);
-        player.getLogger().info("Created Offline Player " + player.getUsername() + " (Offline) which took " + (System.currentTimeMillis() - start) + "ms");
+       // player.getLogger().info("Created Offline Player " + player.getUsername() + " (Offline) which took " + (System.currentTimeMillis() - start) + "ms");
         return player;
     }
 

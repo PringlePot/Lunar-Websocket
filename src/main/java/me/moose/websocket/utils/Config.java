@@ -18,4 +18,16 @@ public class Config {
         public static int DBID = 0;
         public static String UUIDCACHE = "UUIDCACHE";
     }
+
+
+    public static String getTldString(String urlString) {
+        String tldString = null;
+
+        String[] domainNameParts = urlString.split("\\.");
+        if(domainNameParts.length < 2) {
+            return urlString;
+        }
+        tldString = domainNameParts[domainNameParts.length-2] + "." + domainNameParts[domainNameParts.length-1];
+        return tldString;
+    }
 }

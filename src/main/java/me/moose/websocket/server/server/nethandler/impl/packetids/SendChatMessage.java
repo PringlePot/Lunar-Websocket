@@ -24,7 +24,7 @@ public class SendChatMessage extends CBPacket {
 
     @Override
     public void read(WebSocket conn, ByteBufWrapper in) throws IOException {
-        WebServer.getInstance().getLogger().info("Packet ID 20: " + in.readInt());
+    //    WebServer.getInstance().getLogger().info("Packet ID 20: " + in.readInt());
 
     }
 

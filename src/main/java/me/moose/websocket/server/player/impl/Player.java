@@ -18,6 +18,7 @@ import me.moose.websocket.server.server.nethandler.impl.friend.CBPacketFriendLis
 import me.moose.websocket.server.server.nethandler.impl.packetids.WSPacketCosmeticGive;
 import me.moose.websocket.server.utils.Logger;
 import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
 
 import java.beans.ConstructorProperties;
 import java.util.*;
@@ -33,9 +34,9 @@ public class Player {
     private long lastMessageSent;
     private String version;
     private EnumFriendStatus friendStatus;
-    private String server;
+    public String server;
     private WebSocket conn;
-
+    private ClientHandshake handshake;
     // Log off
     private long logOffTime;
 
@@ -77,7 +78,11 @@ public class Player {
 
             return;
         }
-
+        if(handshake != null) {
+            this.server = handshake.getFieldValue("server");
+        } else {
+            this.server = "Unknown";
+        }
         if (this.isOnline()) this.friendStatus = EnumFriendStatus.ONLINE;
          else this.friendStatus = EnumFriendStatus.OFFLINE;
 
@@ -97,25 +102,21 @@ public class Player {
         if (profile.get("requestReceived") != null)
             ((List<String>) profile.get("requestReceived")).forEach(string -> this.getReceivedFriendRequests().add(PlayerFriendRequest.fromJson(string)));
 
-        this.logger.info("Took " + (System.currentTimeMillis() - start) + "ms to load " + this.getUsername() + " (" + (this.isOnline() ? this.conn.getRemoteSocketAddress() : "Not Online") + ")");
+        this.logger.info("Took " + (System.currentTimeMillis() - start) + "ms to load " + this.getUsername() + " (" + (this.isOnline() ? "Online" : "Not Online") + ")");
         if (this.isOnline()) this.sendAllPackets();
     }
 
 
     public void sendAllPackets() {
-        WebServer.getInstance().getLogger().info("Sending all packets");
         ServerHandler handler = WebServer.getInstance().getServerHandler();
-        handler.sendPacket(conn, new WSPacketCosmeticGive());
         PlayerFriendManager.sendFriendRequestBulk(this, handler);
         PlayerFriendManager.sendAllFriendRequestToPlayer(this);
         PlayerFriendManager.updateFriendForOthers(this);
         PlayerFriendManager.recacheFriendList(this);
 
         handler.sendPacket(conn, new CBPacketFriendListUpdate(Rank.isRankOverId(rank, Rank.VIP), true, onlineFriends, offlineFriends));
-        for(Player online : PlayerManager.getPlayerMap().values()) {
-            if(online != this)
-                handler.sendPacket(conn, new WSPacketCosmeticGive(online.getPlayerId()));
-        }
+        handler.sendPacket(conn, new WSPacketCosmeticGive());
+        WebServer.getInstance().getToGiveCosmetics().add(this);
 
 
     }
@@ -124,7 +125,9 @@ public class Player {
 
        if(username.equalsIgnoreCase("Moose1301")) {
             this.rank = Rank.MOOSE;
-        } else
+        } else if(username.equalsIgnoreCase("SheepKiller69")) {
+           this.rank = Rank.VIP;
+       }else
            this.rank = Rank.USER;
       //  getLogger().info("Setting " + username + " Rank to " + rank.getName());
 
@@ -156,8 +159,19 @@ public class Player {
     }
 
     @ConstructorProperties({ "playerId", "username" })
+    public Player(UUID playerId, ClientHandshake handshake, String username) {
+        this.playerId = playerId;
+        this.username = username;
+        this.friends = new ArrayList<>();
+        this.server = "";
+        this.sentFriendRequests = new ArrayList<>();
+        this.receivedFriendRequests = new ArrayList<>();
+        this.handshake = handshake;
+    }
+    @ConstructorProperties({ "playerId", "username" })
     public Player(UUID playerId, String username) {
         this.playerId = playerId;
+        this.server = "";
         this.username = username;
         this.friends = new ArrayList<>();
         this.sentFriendRequests = new ArrayList<>();

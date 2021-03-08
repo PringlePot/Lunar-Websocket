@@ -1,6 +1,8 @@
 package me.moose.websocket.utils;
 
 
+import com.google.common.collect.Maps;
+import lombok.SneakyThrows;
 import me.moose.websocket.server.WebServer;
 import me.moose.websocket.server.player.PlayerManager;
 import me.moose.websocket.server.player.impl.Player;
@@ -12,14 +14,14 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 public class Commands extends Thread {
     private PlayerManager playerManager = WebServer.getInstance().getPlayerManager();
     private ServerHandler serverHandler = WebServer.getInstance().getServerHandler();
+    @SneakyThrows
     @Override
     public void run() {
         while (true) {
@@ -32,20 +34,41 @@ public class Commands extends Thread {
             }
             String[] args = command.split(" ");
             if (command.contains("/online")) {
-                if (args.length == 2 && args[1].equalsIgnoreCase("list")) {
-                    StringBuilder sb = new StringBuilder();
-                    for(Player player : PlayerManager.getPlayerMap().values()) {
-                        if(sb.length() != 1) {
-                            sb.append(", ");
+                if (args.length == 2) {
+                    if (args[1].equalsIgnoreCase("list")) {
+                        StringBuilder sb = new StringBuilder();
+                        for (Player player : PlayerManager.getPlayerMap().values()) {
+                            if (sb.length() != 1) {
+                                sb.append(", ");
+                            }
+                            sb.append(player.getUsername());
                         }
-                        sb.append(player.getUsername());
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "Online Users: " + ConsoleColors.GREEN_BRIGHT.getCode() + WebServer.getInstance().
+                                getOnlineUsers() + ConsoleColors.RESET.getCode());
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "Users: " + sb.toString() + " " + ConsoleColors.RESET.getCode());
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
+                    } else if(args[1].equalsIgnoreCase("server")) {
+
+                        Map<String, Integer> serverCounts = Maps.newHashMap();
+                        for (Player player : PlayerManager.getPlayerMap().values()) {
+                            if(!player.getServer().equalsIgnoreCase("Unknown")) {
+                                String server = getTldString(player.getServer()).toLowerCase();
+                                if (serverCounts.containsKey(server)) {
+                                    serverCounts.put(server, serverCounts.get(server) + 1);
+                                } else {
+                                    serverCounts.put(server, 1);
+                                }
+                            }
+                        }
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
+                        for(Map.Entry<String, Integer> map : serverCounts.entrySet()) {
+                            System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + map.getValue() + ": " + map.getKey());
+                        }
+                        System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
+
                     }
-                    System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
-                    System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "Online Users: " + ConsoleColors.GREEN_BRIGHT.getCode() + WebServer.getInstance().
-                            getOnlineUsers() + ConsoleColors.RESET.getCode());
-                    System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "Users: " + sb.toString() + " " + ConsoleColors.RESET.getCode());
-                    System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
-                } else {
+                }else {
                     System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "---------------------------------------------" + ConsoleColors.RESET.getCode());
                     System.out.println(ConsoleColors.BLUE_BRIGHT.getCode() + "Online Users: " + ConsoleColors.GREEN_BRIGHT.getCode() + WebServer.getInstance().
                             getOnlineUsers() + ConsoleColors.RESET.getCode());
@@ -127,7 +150,8 @@ public class Commands extends Thread {
                         serverHandler.sendMessage(player, "Your rank was updated to " + StringUtils.capitalize(player.getRank().name().replace("_", " ").toLowerCase()));
                     }
                 }
-            }  else if(command.contains("/message")) {
+            }
+            else if(command.contains("/message")) {
                 if (args.length < 3)
                     System.out.println(ConsoleColors.RED_BRIGHT.getCode() + "Usage: " + args[0] + " <uuid> or <username> <message>" + ConsoleColors.RESET.getCode());
                 else {
@@ -159,6 +183,23 @@ public class Commands extends Thread {
                     }
                 }
             }
+            else if(command.equalsIgnoreCase("/reboot")) {
+                WebServer.getInstance().stop();
+                System.exit(10);
+            }
         }
+    }
+    private String getTldString(String urlString) {
+        URL url = null;
+        String tldString = null;
+        try {
+            url = new URL(urlString);
+            String[] domainNameParts = url.getHost().split("\\.");
+            tldString = domainNameParts[domainNameParts.length-1];
+        }
+        catch (MalformedURLException e) {
+        }
+
+        return tldString;
     }
 }

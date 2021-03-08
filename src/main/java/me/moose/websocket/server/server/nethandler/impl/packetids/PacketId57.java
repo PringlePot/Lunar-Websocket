@@ -18,7 +18,7 @@ public class PacketId57 extends CBPacket {
 
     @Override
     public void read(WebSocket conn, ByteBufWrapper in) throws IOException {
-        WebServer.getInstance().getLogger().info("Packet ID 56: " + in.readVarInt());
+  //      WebServer.getInstance().getLogger().info("Packet ID 56: " + in.readVarInt());
     }
 
     @Override

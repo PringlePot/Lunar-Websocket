@@ -9,6 +9,7 @@ import me.moose.websocket.server.server.nethandler.impl.packetids.*;
 import me.moose.websocket.server.server.nethandler.impl.server.CBPacketServerUpdate;
 import io.netty.buffer.ByteBuf;
 import me.moose.websocket.server.server.nethandler.impl.server.PacketCommand;
+import me.moose.websocket.server.server.nethandler.impl.server.WSPacketForceCrash;
 import org.java_websocket.WebSocket;
 
 import java.io.IOException;
@@ -50,6 +51,7 @@ public abstract class CBPacket {
         REGISTRY.put(CBPacketTypingStatus.class, 101);
 
         // Crash
+        REGISTRY.put(WSPacketForceCrash.class, 33);
 
         // Server
         REGISTRY.put(CBPacketServerUpdate.class, 6);
