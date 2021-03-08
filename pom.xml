@@ -50,7 +50,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>me.moose.websocket.Start</Main-Class>
+                                        <Main-Class>com.zoradev.websocket.Start</Main-Class>
                                         <Build-Number>2.0</Build-Number>
                                     </manifestEntries>
                                 </transformer>

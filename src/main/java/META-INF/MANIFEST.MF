@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: me.moose.websocket.Start
+Main-Class: com.zoradev.websocket.Start
