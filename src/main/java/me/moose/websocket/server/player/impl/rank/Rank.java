@@ -11,6 +11,7 @@ public enum Rank {
     LEAD_DEV(4, LunarLogoColors.DEV.getColor(), CC.AQUA.getCode() + "Lead Dev", CC.AQUA),
     DEV(3, LunarLogoColors.DEV.getColor(), CC.AQUA.getCode() + "Dev", CC.AQUA),
     MOOSE(12, LunarLogoColors.MOOSE.getColor(), CC.AQUA.getCode() + "Moose", CC.AQUA),
+    SHRUNKIE(13, LunarLogoColors.PARTNER.getColor(), CC.GOLD.getCode() + "Moose", CC.GOLD),
     VIP(1,LunarLogoColors.WHITE.getColor(), "VIP", CC.YELLOW),
     USER(0,LunarLogoColors.WHITE.getColor(), "User", CC.BLUE),
     RAINBOW(13, RainbowHelper.randomTagColor().getColor(), "Rainbow", RainbowHelper.randomFriendMessageColor());
