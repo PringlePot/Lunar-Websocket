@@ -41,7 +41,7 @@ public class WebServer extends WebSocketServer {
     @Getter public JedisPool jedisPool;
     @Getter private final CommandHandler commandHandler;
     @Getter private int onlineUsers;
-
+    @Getter private long start = System.currentTimeMillis();
     private long startTime;
     private EnumServerState state;
     @Getter ArrayList<Player> toSave = new ArrayList<>();

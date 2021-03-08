@@ -20,7 +20,7 @@ public class Start {
                 "\n UUID Cache: " + Config.Redis.UUIDCACHE +
                 "\n Ping: 1ms");
         System.out.println("\nStarting on port 80!");
-        System.out.println("Setting Databases!");
+        System.out.println("Setting up Databases!");
         Thread.sleep(1250);
        new WebServer(new InetSocketAddress("0.0.0.0", 80)).run();
        WebServer.getInstance().stop();
