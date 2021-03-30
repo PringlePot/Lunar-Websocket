@@ -56,7 +56,7 @@ public class WSPacketCosmeticGive extends CBPacket {
             for (String[] values : GenFromIndexFile.getCosmetics().values()) {
                 int id = Integer.parseInt(values[0]);
                 out.writeVarInt(id);
-                out.writeBoolean(false);
+                out.writeBoolean(player.getCosmetics().contains(id));
                 // out.writeBoolean(player.getCosmetics().contains(id));
             }
 
@@ -74,35 +74,32 @@ public class WSPacketCosmeticGive extends CBPacket {
         out.writeBoolean(false); */
         else {
             if(color == -1) {
-                out.writeVarInt(player.getCosmetics().size());
-                for (int cosmId : player.getCosmetics()) {
-                    String[] info = GenFromIndexFile.getCosmetics().get(cosmId);
-                    int id = Integer.parseInt(info[0]);
-                    String name = info[3];
+                out.writeVarInt(GenFromIndexFile.getCosmetics().values().size());
+                for (String[] values : GenFromIndexFile.getCosmetics().values()) {
+                    int id = Integer.parseInt(values[0]);
                     out.writeVarInt(id);
-                    out.writeBoolean(true);
+                    out.writeBoolean(player.getCosmetics().contains(id));
+                    // out.writeBoolean(player.getCosmetics().contains(id));
                 }
                 out.writeInt(WebServer.getInstance().getPlayerManager().getPlayerById(target).getRank().getColor());
                 out.writeBoolean(true);
             } else if(!updatety){
-                out.writeVarInt(player.getCosmetics().size());
-                for (int cosmId : player.getCosmetics()) {
-                    String[] info = GenFromIndexFile.getCosmetics().get(cosmId);
-                    int id = Integer.parseInt(info[0]);
-                    String name = info[3];
+                out.writeVarInt(GenFromIndexFile.getCosmetics().values().size());
+                for (String[] values : GenFromIndexFile.getCosmetics().values()) {
+                    int id = Integer.parseInt(values[0]);
                     out.writeVarInt(id);
-                    out.writeBoolean(true);
+                    out.writeBoolean(player.getCosmetics().contains(id));
+                    // out.writeBoolean(player.getCosmetics().contains(id));
                 }
                 out.writeInt(color);
                 out.writeBoolean(true);
             } else {
-                out.writeVarInt(0);
-                for (int cosmId : player.getCosmetics()) {
-                    String[] info = GenFromIndexFile.getCosmetics().get(cosmId);
-                    int id = Integer.parseInt(info[0]);
-                    String name = info[3];
+                out.writeVarInt(GenFromIndexFile.getCosmetics().values().size());
+                for (String[] values : GenFromIndexFile.getCosmetics().values()) {
+                    int id = Integer.parseInt(values[0]);
                     out.writeVarInt(id);
-                    out.writeBoolean(true);
+                    out.writeBoolean(player.getCosmetics().contains(id));
+                    // out.writeBoolean(player.getCosmetics().contains(id));
                 }
                 out.writeInt(color);
                 out.writeBoolean(true);

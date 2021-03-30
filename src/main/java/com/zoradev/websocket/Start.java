@@ -22,7 +22,7 @@ public class Start {
         System.out.println("\nStarting on port 80!");
         System.out.println("Setting up Databases!");
         Thread.sleep(1250);
-       new WebServer(new InetSocketAddress("0.0.0.0", 80)).run();
+       new WebServer(new InetSocketAddress("localhost", 80)).run();
        WebServer.getInstance().stop();
        WebServer.getInstance().stop();
        System.out.println("Shutting down");

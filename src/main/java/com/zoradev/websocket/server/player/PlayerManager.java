@@ -8,14 +8,15 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class PlayerManager {
-    @Getter private static Map<UUID, Player> playerMap;
+    @Getter private static LinkedHashMap<UUID, Player> playerMap;
 
-    public PlayerManager() { playerMap = new HashMap<>(); }
+    public PlayerManager() { playerMap = new LinkedHashMap<>(); }
 
     public Player getOrCreatePlayer(WebSocket conn, ClientHandshake handshake, String username) {
         return playerMap.getOrDefault(conn.getAttachment(), this.createProfile(conn, handshake, username));

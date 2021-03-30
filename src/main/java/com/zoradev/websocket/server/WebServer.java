@@ -19,8 +19,6 @@ import com.zoradev.websocket.utils.Commands;
 import com.zoradev.websocket.command.CommandHandler;
 import com.zoradev.websocket.server.mongo.MongoManager;
 import com.zoradev.websocket.server.player.PlayerManager;
-import me.moose.websocket.server.server.nethandler.impl.packetids.*;
-import me.moose.websocket.server.server.objects.*;
 import com.zoradev.websocket.server.utils.Logger;
 import com.zoradev.websocket.server.uuid.WebsocketUUIDCache;
 import io.netty.buffer.Unpooled;

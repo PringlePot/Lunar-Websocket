@@ -24,7 +24,6 @@ public class RunShitThread extends Thread {
             }
              WebServer.getInstance().getToGiveCosmetics().clear();
             WebServer.getInstance().getLogger().info("Updated " + toGive + " Cosmetics");
-            Runtime.getRuntime().gc();
         }
     }
 }

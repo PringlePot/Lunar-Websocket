@@ -116,7 +116,7 @@ public class Player {
 
         handler.sendPacket(conn, new CBPacketFriendListUpdate(Rank.isRankOverId(rank, Rank.VIP), true, onlineFriends, offlineFriends));
         handler.sendPacket(conn, new WSPacketCosmeticGive());
-        WebServer.getInstance().getToGiveCosmetics().add(this);
+      //  WebServer.getInstance().getToGiveCosmetics().add(this);
 
 
     }
