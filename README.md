@@ -9,7 +9,7 @@ The only REAL version of the "Lunar websocket".
 
 ## Credits
 
-Moose: Initial work on websocket, creating base.
+Moose: Initial work on websocket, creating base. <br/>
 Pringles/Shrunkie: Making it work on a VPS, and improving some features
 
 ## Skids
